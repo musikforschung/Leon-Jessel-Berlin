@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -50,19 +50,33 @@
 	<script src="./dist/leaflet.js"></script>
 	<script src="./src/leaflet-search.js"></script>		
 
-	
-
-
 <script>
+// 1. Initialisierung der Karte auf Berlin Zentrum
+var map = L.map('map').setView([52.500623108593, 13.376227531435], 13); 
 
-
-var map = L.map('map').setView([52.470623108593, 13.416227531435], 11); 
-    var OpenStreetMap_DE = L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
-	maxZoom: 18,
-	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+// 2. Optionale Basiskarte (z.B. OpenStreetMap) zum Vergleich
+var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 16,
+	attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
 
+var berlin1925 = L.tileLayer('https://warper.wmflabs.org/maps/tile/1145/{z}/{x}/{y}.png', {
+    layers: 'berlin1925',
+    format: 'image/png',
+    transparent: true,
+	maxZoom: 16,
+    attribution: '&copy; Wikimaps Warper'
+}).addTo(map);
+
+// 4. Layer-Steuerung hinzufügen (optional)
+var baseMaps = {
+    "OpenStreetMap": osm
+};
+var overlayMaps = {
+    "Berlin um 1925": berlin1925
+};
+L.control.layers(baseMaps, overlayMaps).addTo(map);
 
 var markers = new L.MarkerClusterGroup();
         for (var i = 0; i < addressPoints.length; i++) {
@@ -83,11 +97,11 @@ var markers = new L.MarkerClusterGroup();
 	map.addLayer(markers);
     
 
-//var pulsingIcon = L.icon.pulse({iconSize:[12,12],color:'red'});
+var pulsingIcon = L.icon.pulse({iconSize:[12,12],color:'red'});
 
-//		var markerI = L.marker([52.509694,13.370928],{icon: pulsingIcon}).addTo(map);
-//		markerI.bindPopup(title);
-//		markers.addLayer(marker);
+		var markerI = L.marker([52.51770,13.39158],{icon: pulsingIcon}).addTo(map);
+		markerI.bindPopup(title);
+		markers.addLayer(marker);
 	
 var controlSearch = new L.Control.Search({
 		position:'topleft',
@@ -112,6 +126,7 @@ var controlSearch = new L.Control.Search({
 
 
 </script>
+
 
 	
 	
